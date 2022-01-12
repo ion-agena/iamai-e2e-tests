@@ -7,6 +7,7 @@ import com.agenatech.solutions.iamaie2etests.service.DataManager;
 import com.agenatech.solutions.iamaie2etests.service.GatewayService;
 import com.agenatech.solutions.iamaie2etests.service.KeycloakService;
 import com.agenatech.solutions.iamaie2etests.utils.UriUtils;
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -20,6 +21,8 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import static com.agenatech.solutions.iamaie2etests.config.Constants.DEFAULT_PASSWORD;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -41,28 +44,33 @@ class IamaiE2eTestsApplicationNegativeTests {
 
 
 	@Test
-	public void getMe(){
+	public void getOtherProfile(){
 		UserProfile myProfile = gatewayService.getDefaultProfile();
 		log.debug("------- profile {}", myProfile);
 
-		assertTrue(DEFAULT_USER_ID.equals(uriUtils.getIdFromLink(uriUtils.getSelfLinkFromUser(myProfile))));
+		String email = UUID.randomUUID() + "@mail.com";
+		keycloakService.signup(email, DEFAULT_PASSWORD);
+
+		Throwable thrown = catchThrowable(() -> gatewayService.getProfileById(email, DEFAULT_USER_ID) );
+
+		assertThat(thrown)
+				.isInstanceOf(FeignException.NotFound.class);
 	}
 
 	@Test
-	public void putProfile(){
+	public void putIncorrectProfileId(){
 		String email = UUID.randomUUID() + "@mail.com";
 		keycloakService.signup(email, DEFAULT_PASSWORD);
 		UserProfile generatedProfile = dataManager.generateUserProfile(email);
 
-		gatewayService.putProfile(email, generatedProfile);
+		Throwable thrown = catchThrowable(() -> gatewayService.putProfileById(email, UUID.randomUUID().toString(), generatedProfile));
 
-		UserProfile retrievedProfile = gatewayService.getMyProfile(email);
-
-		assertTrue(retrievedProfile.getAvatarUrl().equals(generatedProfile.getAvatarUrl()));
+		assertThat(thrown)
+				.isInstanceOf(FeignException.NotFound.class);
 	}
 
 	@Test
-	public void patchProfile(){
+	public void patchOtherProfile(){
 		String email = UUID.randomUUID() + "@mail.com";
 		keycloakService.signup(email, DEFAULT_PASSWORD);
 		UserProfile generatedProfile = dataManager.generateUserProfile(email);
@@ -73,20 +81,12 @@ class IamaiE2eTestsApplicationNegativeTests {
 		String newValue = UUID.randomUUID().toString();
 		newFieldValue.put("avatarUrl", newValue);
 
-		UserProfile retrievedProfile = gatewayService.patchProfile(email, newFieldValue);
-
-		assertTrue(retrievedProfile.getAvatarUrl().equals(newValue));
+		Throwable thrown = catchThrowable(() ->  gatewayService.patchProfileById(email, DEFAULT_USER_ID, newFieldValue));
+		assertThat(thrown)
+				.isInstanceOf(FeignException.NotFound.class);
 	}
 
-	@Test
-	public void addSkills(){
-		Skill generatedSkill = dataManager.generateSkill(UUID.randomUUID());
-		gatewayService.addSkills(Arrays.asList(generatedSkill), DEFAULT_USER_ID);
-		EmbeddedSkillsResponseRoot skillsResponseRoot = gatewayService.getSkills(DEFAULT_USER_ID);
 
-		assertTrue(skillsResponseRoot.get_embedded().getSkills().contains(generatedSkill));
-
-	}
 
 
 }

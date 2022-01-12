@@ -29,13 +29,24 @@ public class GatewayService {
         return apiGwClient.getMyProfile(getBearer(email));
     }
 
+    public UserProfile getProfileById(String myEmail, String profileId){
+        return apiGwClient.getProfileById(getBearer(myEmail), profileId);
+    }
 
     public UserProfile putProfile(String email, UserProfile profile){
         return apiGwClient.putProfile(getBearer(email), profile);
     }
 
+    public UserProfile putProfileById(String email, String profileId, UserProfile profile){
+        return apiGwClient.putProfileById(getBearer(email), profileId, profile);
+    }
+
     public UserProfile patchProfile(String email, Map attrs){
         return apiGwClient.patchProfile(getBearer(email), attrs);
+    }
+
+    public UserProfile patchProfileById(String email, String profileId, Map attrs){
+        return apiGwClient.patchProfileById(getBearer(email), profileId, attrs);
     }
 
     public void addSkills(List<Skill> skills, String id){
@@ -52,7 +63,7 @@ public class GatewayService {
         return  "Bearer "  + keycloakService.defaultLogin().accessToken();
     }
 
-    private String getBearer(String email){
+    public String getBearer(String email){
         return  "Bearer "  + keycloakService.login(email, DEFAULT_PASSWORD).accessToken();
     }
 

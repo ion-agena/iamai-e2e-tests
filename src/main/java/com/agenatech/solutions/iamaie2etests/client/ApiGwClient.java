@@ -18,12 +18,21 @@ public interface ApiGwClient {
     @GetMapping(value = "${profiles.profiles-me-url}", consumes = MediaType.APPLICATION_JSON_VALUE)
     UserProfile getMyProfile(@RequestHeader("Authorization") String token);
 
+    @GetMapping(value = "${profiles.profiles-url}/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    UserProfile getProfileById(@RequestHeader("Authorization") String token, @PathVariable("id") String id);
+
 
     @PutMapping(value = "${profiles.profiles-me-url}", consumes = MediaType.APPLICATION_JSON_VALUE)
     UserProfile putProfile(@RequestHeader("Authorization") String token, UserProfile profile);
 
+    @PutMapping(value = "${profiles.profiles-url}/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    UserProfile putProfileById(@RequestHeader("Authorization") String token, @PathVariable("id") String id, UserProfile profile);
+
     @PatchMapping(value = "${profiles.profiles-me-url}", consumes = MediaType.APPLICATION_JSON_VALUE)
     UserProfile patchProfile(@RequestHeader("Authorization") String token, Map attrs);
+
+    @PatchMapping(value = "${profiles.profiles-url}/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    UserProfile patchProfileById(@RequestHeader("Authorization") String token, @PathVariable("id") String id, Map attrs);
 
     @PostMapping(value = "${profiles.profiles-url}/{id}/skills", consumes = MediaType.APPLICATION_JSON_VALUE)
     void addSkills(@RequestHeader("Authorization") String token, @PathVariable("id") String id, List<Skill> skills);
@@ -31,9 +40,7 @@ public interface ApiGwClient {
     @GetMapping(value = "${profiles.profiles-url}/{id}/skills", consumes = MediaType.APPLICATION_JSON_VALUE)
     EmbeddedSkillsResponseRoot getSkills(@RequestHeader("Authorization") String token, @PathVariable("id") String id);
 
-//    @PostMapping(value = "${profiles.profiles-me-url}/pets", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    PetProfile saveAndLink(PetProfile petProfile, @RequestHeader("Authorization") String token);
-
+// todo implement delete
     @DeleteMapping(value = "${profiles.pets-url}/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     void deletePet(@PathVariable("id") String id);
 }
