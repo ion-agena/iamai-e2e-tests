@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @FeignClient(url = "${api-gw.url}", value = "${api-gw.url}")
 @Service
@@ -20,6 +21,9 @@ public interface ApiGwClient {
 
     @PutMapping(value = "${profiles.profiles-me-url}", consumes = MediaType.APPLICATION_JSON_VALUE)
     UserProfile putProfile(@RequestHeader("Authorization") String token, UserProfile profile);
+
+    @PatchMapping(value = "${profiles.profiles-me-url}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    UserProfile patchProfile(@RequestHeader("Authorization") String token, Map attrs);
 
     @PostMapping(value = "${profiles.profiles-url}/{id}/skills", consumes = MediaType.APPLICATION_JSON_VALUE)
     void addSkills(@RequestHeader("Authorization") String token, @PathVariable("id") String id, List<Skill> skills);

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.agenatech.solutions.iamaie2etests.config.Constants.DEFAULT_PASSWORD;
 
@@ -33,8 +34,11 @@ public class GatewayService {
         return apiGwClient.putProfile(getBearer(email), profile);
     }
 
+    public UserProfile patchProfile(String email, Map attrs){
+        return apiGwClient.patchProfile(getBearer(email), attrs);
+    }
+
     public void addSkills(List<Skill> skills, String id){
-        String bearerToken = keycloakService.defaultLogin().accessToken();
         apiGwClient.addSkills(getDefaultBearer(), id, skills);
     }
 
@@ -42,16 +46,6 @@ public class GatewayService {
         return apiGwClient.getSkills(getDefaultBearer(), id);
     }
 
-
-//    public PetProfile saveAndLink(PetProfile petProfile){
-//        String bearerToken = keycloakService.defaultLogin().accessToken();
-//        return apiGwClient.saveAndLink(petProfile, "Bearer "  + bearerToken);
-//    }
-
-
-    public void deletePet(String petId){
-        apiGwClient.deletePet(petId);
-    }
 
 
     private String getDefaultBearer(){

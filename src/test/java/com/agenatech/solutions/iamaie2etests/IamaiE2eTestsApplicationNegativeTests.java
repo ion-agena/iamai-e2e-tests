@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.UUID;
 
 import static com.agenatech.solutions.iamaie2etests.config.Constants.DEFAULT_PASSWORD;
@@ -25,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Slf4j
-class IamaiE2eTestsApplicationTests {
+class IamaiE2eTestsApplicationNegativeTests {
 	@Autowired
 	private KeycloakService keycloakService;
 	@Autowired
@@ -57,15 +58,30 @@ class IamaiE2eTestsApplicationTests {
 
 		UserProfile retrievedProfile = gatewayService.getMyProfile(email);
 
-
 		assertTrue(retrievedProfile.getAvatarUrl().equals(generatedProfile.getAvatarUrl()));
+	}
+
+	@Test
+	public void patchProfile(){
+		String email = UUID.randomUUID() + "@mail.com";
+		keycloakService.signup(email, DEFAULT_PASSWORD);
+		UserProfile generatedProfile = dataManager.generateUserProfile(email);
+
+		gatewayService.putProfile(email, generatedProfile);
+
+		var newFieldValue = new HashMap<String, String>();
+		String newValue = UUID.randomUUID().toString();
+		newFieldValue.put("avatarUrl", newValue);
+
+		UserProfile retrievedProfile = gatewayService.patchProfile(email, newFieldValue);
+
+		assertTrue(retrievedProfile.getAvatarUrl().equals(newValue));
 	}
 
 	@Test
 	public void addSkills(){
 		Skill generatedSkill = dataManager.generateSkill(UUID.randomUUID());
 		gatewayService.addSkills(Arrays.asList(generatedSkill), DEFAULT_USER_ID);
-
 		EmbeddedSkillsResponseRoot skillsResponseRoot = gatewayService.getSkills(DEFAULT_USER_ID);
 
 		assertTrue(skillsResponseRoot.get_embedded().getSkills().contains(generatedSkill));

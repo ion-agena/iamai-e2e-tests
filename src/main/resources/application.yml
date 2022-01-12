@@ -22,7 +22,9 @@ api-gw:
 #  url: http://localhost:8081
 test:
   test-user-id: 06019958-20ac-4c91-a23c-73a3148982e5
-feign.client.config.default.loggerLevel: full
+feign:
+  client.config.default.loggerLevel: full
+  httpclient.enabled: true
 logging.level:
   com.agenatech: DEBUG
 
