@@ -1,0 +1,29 @@
+server:
+  port: 9092
+auth-server:
+  url: ${keycloak-client.server-url}
+  client: web
+  token-uri: auth/realms/${keycloak-client.realm}/protocol/openid-connect/token
+  cli-token-uri: auth/realms/master/protocol/openid-connect/token
+  logout-uri: auth/realms/${keycloak-client.realm}/protocol/openid-connect/logout
+  users-uri: auth/admin/realms/${keycloak-client.realm}/users
+  grant-type: password
+  test-username: test@test.com
+  test_password: test
+  admin-secret: 530e9165-756c-4f2c-a9ac-5ff1c0cfd948
+keycloak-client:
+  server-url: https://auth-dev.agenadev.com
+  realm: iamai
+profiles:
+  profiles-url: api/v1/profiles
+  profiles-me-url: api/v1/profiles/me
+api-gw:
+  url: http://a261abb3de93345ab948887dbaa85663-1747160800.eu-north-1.elb.amazonaws.com
+#  url: http://localhost:8081
+test:
+  test-user-id: 06019958-20ac-4c91-a23c-73a3148982e5
+feign.client.config.default.loggerLevel: full
+logging.level:
+  com.agenatech: DEBUG
+
+
