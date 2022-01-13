@@ -7,6 +7,7 @@ import com.agenatech.solutions.iamaie2etests.service.DataManager;
 import com.agenatech.solutions.iamaie2etests.service.GatewayService;
 import com.agenatech.solutions.iamaie2etests.service.KeycloakService;
 import com.agenatech.solutions.iamaie2etests.utils.UriUtils;
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -20,6 +21,8 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import static com.agenatech.solutions.iamaie2etests.config.Constants.DEFAULT_PASSWORD;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -59,6 +62,29 @@ class IamaiE2eTestsApplicationPositiveTests {
 		UserProfile retrievedProfile = gatewayService.getMyProfile(email);
 
 		assertTrue(retrievedProfile.getAvatarUrl().equals(generatedProfile.getAvatarUrl()));
+	}
+
+	@Test
+	public void deleteProfile(){
+		String email = UUID.randomUUID() + "@mail.com";
+		keycloakService.signup(email, DEFAULT_PASSWORD);
+		UserProfile generatedProfile = dataManager.generateUserProfile(email);
+
+		gatewayService.putProfile(email, generatedProfile);
+
+		UserProfile retrievedProfile = gatewayService.getMyProfile(email);
+
+		assertTrue(retrievedProfile.getAvatarUrl().equals(generatedProfile.getAvatarUrl()));
+
+		log.debug("-----------continue");
+
+		gatewayService.deleteMyProfile(email);
+
+		Throwable thrown = catchThrowable(() -> gatewayService.getMyProfile(email));
+
+		assertThat(thrown)
+				.isInstanceOf(FeignException.NotFound.class);
+
 	}
 
 	@Test

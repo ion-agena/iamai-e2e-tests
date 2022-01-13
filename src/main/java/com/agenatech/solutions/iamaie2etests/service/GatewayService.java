@@ -41,6 +41,10 @@ public class GatewayService {
         return apiGwClient.putProfileById(getBearer(email), profileId, profile);
     }
 
+    public void deleteMyProfile(String email){
+         apiGwClient.deleteMyProfile(getBearer(email));
+    }
+
     public UserProfile patchProfile(String email, Map attrs){
         return apiGwClient.patchProfile(getBearer(email), attrs);
     }

@@ -25,6 +25,9 @@ public interface ApiGwClient {
     @PutMapping(value = "${profiles.profiles-me-url}", consumes = MediaType.APPLICATION_JSON_VALUE)
     UserProfile putProfile(@RequestHeader("Authorization") String token, UserProfile profile);
 
+    @DeleteMapping(value = "${profiles.profiles-me-url}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    UserProfile deleteMyProfile(@RequestHeader("Authorization") String token);
+
     @PutMapping(value = "${profiles.profiles-url}/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     UserProfile putProfileById(@RequestHeader("Authorization") String token, @PathVariable("id") String id, UserProfile profile);
 

@@ -18,7 +18,7 @@ profiles:
   profiles-url: api/v1/profiles
   profiles-me-url: api/v1/profiles/me
 api-gw:
-  url: http://a261abb3de93345ab948887dbaa85663-1747160800.eu-north-1.elb.amazonaws.com
+  url: http://iamai-api-dev.agenadev.com
 #  url: http://localhost:8081
 test:
   test-user-id: 06019958-20ac-4c91-a23c-73a3148982e5
