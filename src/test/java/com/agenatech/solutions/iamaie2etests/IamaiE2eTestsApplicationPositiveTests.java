@@ -88,5 +88,4 @@ class IamaiE2eTestsApplicationPositiveTests {
 
 	}
 
-
 }

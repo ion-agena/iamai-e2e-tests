@@ -1,7 +1,5 @@
 package com.agenatech.solutions.iamaie2etests;
 
-import com.agenatech.solutions.iamaie2etests.payload.request.Skill;
-import com.agenatech.solutions.iamaie2etests.payload.response.EmbeddedSkillsResponseRoot;
 import com.agenatech.solutions.iamaie2etests.payload.response.UserProfile;
 import com.agenatech.solutions.iamaie2etests.service.DataManager;
 import com.agenatech.solutions.iamaie2etests.service.GatewayService;
@@ -16,14 +14,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
 import static com.agenatech.solutions.iamaie2etests.config.Constants.DEFAULT_PASSWORD;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.catchThrowable;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @ActiveProfiles("test")
