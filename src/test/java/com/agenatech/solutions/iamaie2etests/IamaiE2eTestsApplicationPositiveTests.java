@@ -83,7 +83,7 @@ class IamaiE2eTestsApplicationPositiveTests {
 		Throwable thrown = catchThrowable(() -> gatewayService.getMyProfile(email));
 
 		assertThat(thrown)
-				.isInstanceOf(FeignException.NotFound.class);
+				.isInstanceOf(FeignException.InternalServerError.class);
 
 	}
 
