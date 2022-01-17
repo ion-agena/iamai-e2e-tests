@@ -10,6 +10,7 @@ auth-server:
   grant-type: password
   test-username: test@test.com
   test_password: test
+  iamai-admin-account: e2e@admin.com
   admin-secret: 530e9165-756c-4f2c-a9ac-5ff1c0cfd948
 keycloak-client:
   server-url: https://auth-dev.agenadev.com

@@ -22,7 +22,7 @@ public class DataManager {
     public Skill generateSkill(UUID id){
         return Skill.builder()
                 .name("Skill" + id)
-                .level("beginner")
+                .level("BEGINNER")
                 .build();
     }
 }

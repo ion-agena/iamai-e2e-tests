@@ -1,6 +1,7 @@
 package com.agenatech.solutions.iamaie2etests.client;
 
 import com.agenatech.solutions.iamaie2etests.payload.request.Skill;
+import com.agenatech.solutions.iamaie2etests.payload.response.EmbeddedProfilesResponseRoot;
 import com.agenatech.solutions.iamaie2etests.payload.response.EmbeddedSkillsResponseRoot;
 import com.agenatech.solutions.iamaie2etests.payload.response.UserProfile;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -43,7 +44,12 @@ public interface ApiGwClient {
     @GetMapping(value = "${profiles.profiles-url}/{id}/skills", consumes = MediaType.APPLICATION_JSON_VALUE)
     EmbeddedSkillsResponseRoot getSkills(@RequestHeader("Authorization") String token, @PathVariable("id") String id);
 
-// todo implement delete
-    @DeleteMapping(value = "${profiles.pets-url}/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    void deletePet(@PathVariable("id") String id);
+    @GetMapping(value = "${profiles.profiles-url}/search/skills", consumes = MediaType.APPLICATION_JSON_VALUE)
+    EmbeddedProfilesResponseRoot searchSkills(@RequestHeader("Authorization") String token, @RequestParam List<String> skills, @RequestParam List<String> skillLevels);
+
+
+    @GetMapping(value = "api/v1/count/skills", consumes = MediaType.APPLICATION_JSON_VALUE)
+    long countSkills(@RequestHeader("Authorization") String token, @RequestParam List<String> skills, @RequestParam List<String> skillLevels);
+
+
 }

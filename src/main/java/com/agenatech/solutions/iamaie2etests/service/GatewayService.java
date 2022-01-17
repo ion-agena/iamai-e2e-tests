@@ -3,6 +3,7 @@ package com.agenatech.solutions.iamaie2etests.service;
 
 import com.agenatech.solutions.iamaie2etests.client.ApiGwClient;
 import com.agenatech.solutions.iamaie2etests.payload.request.Skill;
+import com.agenatech.solutions.iamaie2etests.payload.response.EmbeddedProfilesResponseRoot;
 import com.agenatech.solutions.iamaie2etests.payload.response.EmbeddedSkillsResponseRoot;
 import com.agenatech.solutions.iamaie2etests.payload.response.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,17 @@ public class GatewayService {
         return apiGwClient.getSkills(getDefaultBearer(), id);
     }
 
+    public EmbeddedProfilesResponseRoot searchSkills(List<String> skillNames, List<String> skillLevels){
+        return apiGwClient.searchSkills(getDefaultBearer(), skillNames, skillLevels);
+    }
+
+    public EmbeddedProfilesResponseRoot searchSkillsAsAdmin(String email, List<String> skillNames, List<String> skillLevels){
+        return apiGwClient.searchSkills(getBearer(email), skillNames, skillLevels);
+    }
+
+    public long countSkills(List<String> skillNames, List<String> skillLevels){
+        return apiGwClient.countSkills(getDefaultBearer(), skillNames, skillLevels);
+    }
 
 
     private String getDefaultBearer(){

@@ -83,6 +83,4 @@ class IamaiE2eTestsApplicationNegativeTests {
 	}
 
 
-
-
 }
