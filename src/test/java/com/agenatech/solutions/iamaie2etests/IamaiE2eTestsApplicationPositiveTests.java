@@ -1,6 +1,7 @@
 package com.agenatech.solutions.iamaie2etests;
 
 import com.agenatech.solutions.iamaie2etests.payload.request.Skill;
+import com.agenatech.solutions.iamaie2etests.payload.response.EmbeddedProfilesResponseRoot;
 import com.agenatech.solutions.iamaie2etests.payload.response.EmbeddedSkillsResponseRoot;
 import com.agenatech.solutions.iamaie2etests.payload.response.UserProfile;
 import com.agenatech.solutions.iamaie2etests.service.DataManager;
@@ -23,7 +24,6 @@ import java.util.UUID;
 import static com.agenatech.solutions.iamaie2etests.config.Constants.DEFAULT_PASSWORD;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.catchThrowable;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -114,14 +114,16 @@ class IamaiE2eTestsApplicationPositiveTests {
 		assertTrue(skillsResponseRoot.get_embedded().getSkills().contains(generatedSkill));
 	}
 
+
 	@Test
-	public void countSkills(){
+	public void publicSkillsSearch(){
 		Skill generatedSkill = dataManager.generateSkill(UUID.randomUUID());
 		gatewayService.addSkills(Arrays.asList(generatedSkill), DEFAULT_USER_ID);
 
-		long skillsResult = gatewayService.countSkills(Arrays.asList(generatedSkill.getName()), Arrays.asList(generatedSkill.getLevel()));
+		EmbeddedProfilesResponseRoot profilesResponseRoot =
+				gatewayService.searchSkills(Arrays.asList(generatedSkill.getName()), Arrays.asList(generatedSkill.getLevel()));
 
-		assertEquals(skillsResult, 1);
+		assertTrue(profilesResponseRoot.get_embedded().getProfiles().get(0).get_links().getSelf().get("href").contains(DEFAULT_USER_ID));
 	}
 
 }

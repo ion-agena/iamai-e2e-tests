@@ -45,11 +45,8 @@ public interface ApiGwClient {
     EmbeddedSkillsResponseRoot getSkills(@RequestHeader("Authorization") String token, @PathVariable("id") String id);
 
     @GetMapping(value = "${profiles.profiles-url}/search/skills", consumes = MediaType.APPLICATION_JSON_VALUE)
-    EmbeddedProfilesResponseRoot searchSkills(@RequestHeader("Authorization") String token, @RequestParam List<String> skills, @RequestParam List<String> skillLevels);
+    EmbeddedProfilesResponseRoot searchSkills(@RequestHeader("Authorization") String token, @RequestParam List<String> skills, @RequestParam List<String> skillLevels, @RequestParam String projection);
 
-
-    @GetMapping(value = "api/v1/count/skills", consumes = MediaType.APPLICATION_JSON_VALUE)
-    long countSkills(@RequestHeader("Authorization") String token, @RequestParam List<String> skills, @RequestParam List<String> skillLevels);
 
 
 }

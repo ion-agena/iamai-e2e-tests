@@ -23,6 +23,7 @@ api-gw:
 #  url: http://localhost:8081
 test:
   test-user-id: 06019958-20ac-4c91-a23c-73a3148982e5
+  test-email-rand: pass@email.com
 feign:
   client.config.default.loggerLevel: full
   httpclient.enabled: true

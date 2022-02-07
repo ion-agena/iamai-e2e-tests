@@ -30,6 +30,9 @@ class AdminNegativeTests {
 	@Value("${test.test-user-id}")
 	private String DEFAULT_USER_ID;
 
+	@Value("${test.test-email-rand}")
+	private String DEFAULT_USER_EMAIL;
+
 
 
 	@Test
@@ -37,7 +40,7 @@ class AdminNegativeTests {
 		Skill generatedSkill = dataManager.generateSkill(UUID.randomUUID());
 		gatewayService.addSkills(Arrays.asList(generatedSkill), DEFAULT_USER_ID);
 
-		Throwable thrown = catchThrowable(() -> gatewayService.searchSkills(Arrays.asList(generatedSkill.getName()), Arrays.asList(generatedSkill.getLevel())));
+		Throwable thrown = catchThrowable(() -> gatewayService.searchSkillsAsAdmin(DEFAULT_USER_EMAIL, Arrays.asList(generatedSkill.getName()), Arrays.asList(generatedSkill.getLevel())));
 
 		assertThat(thrown)
 				.isInstanceOf(FeignException.Forbidden.class);

@@ -63,16 +63,13 @@ public class GatewayService {
     }
 
     public EmbeddedProfilesResponseRoot searchSkills(List<String> skillNames, List<String> skillLevels){
-        return apiGwClient.searchSkills(getDefaultBearer(), skillNames, skillLevels);
+        return apiGwClient.searchSkills(getDefaultBearer(), skillNames, skillLevels, "public-search-profile");
     }
 
     public EmbeddedProfilesResponseRoot searchSkillsAsAdmin(String email, List<String> skillNames, List<String> skillLevels){
-        return apiGwClient.searchSkills(getBearer(email), skillNames, skillLevels);
+        return apiGwClient.searchSkills(getBearer(email), skillNames, skillLevels, "admin-search-profile");
     }
 
-    public long countSkills(List<String> skillNames, List<String> skillLevels){
-        return apiGwClient.countSkills(getDefaultBearer(), skillNames, skillLevels);
-    }
 
 
     private String getDefaultBearer(){
