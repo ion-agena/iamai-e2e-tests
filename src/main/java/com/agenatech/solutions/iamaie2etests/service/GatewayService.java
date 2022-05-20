@@ -2,6 +2,8 @@ package com.agenatech.solutions.iamaie2etests.service;
 
 
 import com.agenatech.solutions.iamaie2etests.client.ApiGwClient;
+import com.agenatech.solutions.iamaie2etests.payload.influencers.Brief;
+import com.agenatech.solutions.iamaie2etests.payload.influencers.BriefInfluencerRelation;
 import com.agenatech.solutions.iamaie2etests.payload.request.Skill;
 import com.agenatech.solutions.iamaie2etests.payload.response.EmbeddedProfilesResponseRoot;
 import com.agenatech.solutions.iamaie2etests.payload.response.EmbeddedSkillsResponseRoot;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.agenatech.solutions.iamaie2etests.config.Constants.DEFAULT_PASSWORD;
 
@@ -79,5 +82,16 @@ public class GatewayService {
     public String getBearer(String email){
         return  "Bearer "  + keycloakService.login(email, DEFAULT_PASSWORD).accessToken();
     }
+
+//    influencers
+
+    public Brief postBrief(Brief brief){
+        return apiGwClient.createBrief(getDefaultBearer(), brief);
+    }
+
+    public BriefInfluencerRelation sendBrief(UUID briefId, BriefInfluencerRelation relation){
+        return apiGwClient.sendBrief(getDefaultBearer(), briefId, relation);
+    }
+
 
 }

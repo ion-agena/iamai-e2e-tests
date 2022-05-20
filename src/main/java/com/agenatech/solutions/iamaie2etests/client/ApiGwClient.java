@@ -1,5 +1,7 @@
 package com.agenatech.solutions.iamaie2etests.client;
 
+import com.agenatech.solutions.iamaie2etests.payload.influencers.Brief;
+import com.agenatech.solutions.iamaie2etests.payload.influencers.BriefInfluencerRelation;
 import com.agenatech.solutions.iamaie2etests.payload.request.Skill;
 import com.agenatech.solutions.iamaie2etests.payload.response.EmbeddedProfilesResponseRoot;
 import com.agenatech.solutions.iamaie2etests.payload.response.EmbeddedSkillsResponseRoot;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @FeignClient(url = "${api-gw.url}", value = "${api-gw.url}")
 @Service
@@ -49,4 +52,14 @@ public interface ApiGwClient {
 
 
 
+
+
+
+//    influencers
+
+    @PostMapping(value = "${gmf.brief-url}")
+    Brief createBrief(@RequestHeader("Authorization") String token, Brief brief);
+
+    @PostMapping(value = "${gmf.send-brief-url}")
+    BriefInfluencerRelation sendBrief(@RequestHeader("Authorization") String token, @PathVariable UUID briefId, BriefInfluencerRelation relation);
 }

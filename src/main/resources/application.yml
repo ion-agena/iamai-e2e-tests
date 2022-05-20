@@ -8,18 +8,21 @@ auth-server:
   logout-uri: auth/realms/${keycloak-client.realm}/protocol/openid-connect/logout
   users-uri: auth/admin/realms/${keycloak-client.realm}/users
   grant-type: password
-  test-username: test@test.com
+  test-username: test1
   test_password: test
   iamai-admin-account: e2e@admin.com
   admin-secret: 530e9165-756c-4f2c-a9ac-5ff1c0cfd948
 keycloak-client:
   server-url: https://auth-dev.agenadev.com
-  realm: iamai
+  realm: influencers-com
 profiles:
   profiles-url: api/v1/profiles
   profiles-me-url: api/v1/profiles/me
+gmf:
+  brief-url: api/v1/briefs
+  send-brief-url:  api/v1/commands/me/send-brief/{briefId}
 api-gw:
-  url: http://iamai-api-dev.agenadev.com
+  url: http://influencers-api-dev.agenadev.com
 #  url: http://localhost:8081
 test:
   test-user-id: 06019958-20ac-4c91-a23c-73a3148982e5
